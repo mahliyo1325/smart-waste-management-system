@@ -1,16 +1,21 @@
 from fastapi import FastAPI
 
-app = FastAPI(title="Smart Waste Management System API", version="0.1.0")
+app = FastAPI(
+    title="Aqlli chiqindilarni qayta ishlash tizimi API",
+    version="0.1.0",
+    description="Chiqindilarni qayta ishlash va tejalgan energiyani hisoblash xizmati"
+)
 
 @app.get("/")
-def health_check():
-    return {"status": "ok", "service": "Smart Waste Management System"}
+def holatni_tekshirish():
+    return {"holat": "ishlamoqda", "xizmat": "Aqlli chiqindilarni qayta ishlash tizimi"}
 
-@app.get("/api/v1/energy-saved")
-def calculate_energy_saved(recycled_tonnes: float, kwh_per_tonne: float):
-    total_kwh = recycled_tonnes * kwh_per_tonne
+@app.get("/api/v1/tejalgan-energiya")
+def tejalgan_energiyani_hisoblash(qayta_ishlangan_tonna: float, bir_tonna_uchun_kwh: float):
+    # Qayta ishlangan chiqindidan tejalgan jami energiyani kWh va GWh da hisoblash
+    jami_kwh = qayta_ishlangan_tonna * bir_tonna_uchun_kwh
     return {
-        "recycled_tonnes": recycled_tonnes,
-        "total_energy_saved_kwh": round(total_kwh, 2),
-        "total_energy_saved_gwh": round(total_kwh / 1_000_000, 4),
+        "qayta_ishlangan_tonna": qayta_ishlangan_tonna,
+        "tejalgan_energiya_kwh": round(jami_kwh, 2),
+        "tejalgan_energiya_gwh": round(jami_kwh / 1_000_000, 4),
     }
